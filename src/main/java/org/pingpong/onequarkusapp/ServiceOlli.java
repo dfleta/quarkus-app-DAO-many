@@ -44,6 +44,19 @@ public class ServiceOlli {
         return ordenRepo.findByUserName(usuaria_nombre);
     }
 
+    public Usuaria creaUsuaria(Usuaria usuaria) {
+        usuariaRepo.persist(usuaria);
+        return this.cargaUsuaria(usuaria.getNombre());
+    }
+
+    public void eliminaUsuaria(String nommbre_usuaria) {
+        usuariaRepo.deleteById(nommbre_usuaria);
+    }
+
+    public List<Orden> ordenes() {
+        return ordenRepo.listAll();
+    }
+
     // contenido min eval: if-else
     @Transactional
     public Orden comanda(String usuaria_nombre, String item_nombre) {
