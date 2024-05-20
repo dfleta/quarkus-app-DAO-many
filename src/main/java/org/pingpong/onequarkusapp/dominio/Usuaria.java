@@ -1,6 +1,5 @@
 package org.pingpong.onequarkusapp.dominio;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -8,7 +7,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="t_users")
-public class Usuaria extends PanacheEntityBase {
+public class Usuaria {
 
     @Id
 	@Column(name="user_nom")

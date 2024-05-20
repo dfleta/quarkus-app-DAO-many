@@ -117,7 +117,8 @@ public class ResourcesTest {
         Assertions.assertThat(pedidos.get(0).getUser().getNombre()).isEqualTo("Hermione");
         // AgedBrie tiene id < 100L por lo que entra en el index 0 de pedidos
 		Assertions.assertThat(pedidos.get(0).getItem().getNombre()).isEqualToIgnoringCase("AgedBrie");
-		em.find(Orden.class, pedidos.get(0).getId()).delete();
+		Orden orden = em.find(Orden.class, pedidos.get(0).getId());
+        em.remove(orden);
 	}
 
     // Si la usuaria o el item no existen el controlador devuelve 404

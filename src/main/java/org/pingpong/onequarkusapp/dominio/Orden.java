@@ -1,9 +1,5 @@
 package org.pingpong.onequarkusapp.dominio;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="t_ordenes")
-public class Orden extends PanacheEntityBase {
+public class Orden {
 
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ord_id")
@@ -58,15 +54,5 @@ public class Orden extends PanacheEntityBase {
 	@Override
 	public String toString() {
 		return this.getUser().getNombre() + " " + this.getItem().getNombre();
-	}
-
-	// contenido min: loop, if-else, colecciones.
-	public static List<Orden> findByUserName(String name) {
-		List<Orden> ordenes = Orden.listAll();
-		List<Orden> ordenesByName = ordenes
-										.stream()
-										.filter(o -> o.getUser().getNombre().equalsIgnoreCase(name))
-										.collect(Collectors.toList());
-		return ordenesByName.isEmpty()? List.of(): ordenesByName;
 	}
 }
