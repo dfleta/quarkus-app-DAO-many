@@ -1,8 +1,14 @@
 package org.pingpong.onequarkusapp.dominio;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -10,7 +16,7 @@ import jakarta.persistence.Table;
 public class Usuaria {
 
     @Id
-	@Column(name="user_nom")
+	@Column(name="user_nom", unique = true)
 	private String nombre = "";
 	
 	@Column(name="user_prop")
@@ -30,5 +36,5 @@ public class Usuaria {
 	}
 	public void setDestreza(int valor) {
 		this.destreza = valor;
-	}    
+	} 
 }

@@ -20,7 +20,9 @@ alter table t_ordenes
     foreign key (ord_item) references t_items;
 alter table t_ordenes 
     add constraint orden_user_fk 
-    foreign key (ord_user) references t_users;
+    foreign key (ord_user) references t_users (user_nom)
+    on delete set null
+    on update set null;
 insert into 
     t_users (user_nom, user_prop) 
     values

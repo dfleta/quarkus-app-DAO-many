@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -17,7 +18,7 @@ public class Orden {
 	@Column(name="ord_id")
     private Long id; 
     
-    @OneToOne
+    @ManyToOne
 	@JoinColumn(name="ord_user")
 	private Usuaria user;
 	
