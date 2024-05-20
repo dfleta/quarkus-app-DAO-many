@@ -185,7 +185,8 @@ public class ServiceTest {
         Assertions.assertThat(pedidos.get(0).getUser().getNombre()).isEqualTo("Hermione");
 		// AgedBrie tendra una id < 100L por lo que se encuentra en el index 0 de pedidos
 		Assertions.assertThat(pedidos.get(0).getItem().getNombre()).isEqualToIgnoringCase("AgedBrie");
-		em.find(Orden.class, pedidos.get(0).getId()).delete();
+		orden = em.find(Orden.class, pedidos.get(0).getId());
+		em.remove(orden);
 	}
 
 	/**
@@ -272,8 +273,10 @@ public class ServiceTest {
 		Assertions.assertThat(pedidos.get(0).getItem().getNombre()).isEqualToIgnoringCase("AgedBrie");
 		Assertions.assertThat(pedidos.get(1).getItem().getNombre()).isEqualToIgnoringCase("Elixir of the Mongoose");
 		Assertions.assertThat(pedidos.get(2).getItem().getNombre()).isEqualToIgnoringCase("+5 Dexterity Vest");
-		em.find(Orden.class, pedidos.get(1).getId()).delete();
-		em.find(Orden.class, pedidos.get(0).getId()).delete();
+		Orden orden = em.find(Orden.class, pedidos.get(1).getId());
+		em.remove(orden);
+		orden = em.find(Orden.class, pedidos.get(0).getId());
+		em.remove(orden);
 	}
 
 	// No se permiten ordenes si el usuario no existe en la base de datos

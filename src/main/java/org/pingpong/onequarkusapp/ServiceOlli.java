@@ -8,39 +8,52 @@ import java.util.Optional;
 import org.pingpong.onequarkusapp.dominio.Item;
 import org.pingpong.onequarkusapp.dominio.Orden;
 import org.pingpong.onequarkusapp.dominio.Usuaria;
+import org.pingpong.onequarkusapp.repository.ItemRepository;
+import org.pingpong.onequarkusapp.repository.OrdenRepository;
+import org.pingpong.onequarkusapp.repository.UsuariaRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class ServiceOlli {
 
+    @Inject
+    public UsuariaRepository usuariaRepo;
+
+    @Inject
+    public ItemRepository itemRepo;
+
+    @Inject
+    public OrdenRepository ordenRepo;
+
     public ServiceOlli() {}
     
     public Usuaria cargaUsuaria(String nombre) {
-        Optional<Usuaria> usuaria = Usuaria.findByIdOptional(nombre);
+        Optional<Usuaria> usuaria = usuariaRepo.findByIdOptional(nombre);
         return usuaria.isPresent()? usuaria.get(): new Usuaria();
     }
 
     public Item cargaItem(String nombre) {
-        Optional<Item> item = Item.findByIdOptional(nombre);
+        Optional<Item> item = itemRepo.findByIdOptional(nombre);
         return item.isPresent()? item.get(): new Item();
     }
 
     public List<Orden> cargaOrden(String usuaria_nombre) {
-        return Orden.findByUserName(usuaria_nombre);
+        return ordenRepo.findByUserName(usuaria_nombre);
     }
 
     // contenido min eval: if-else
     @Transactional
     public Orden comanda(String usuaria_nombre, String item_nombre) {
         Orden orden = null;
-        Optional<Usuaria> usuaria = Usuaria.findByIdOptional(usuaria_nombre);
-        Optional<Item> item = Item.findByIdOptional(item_nombre);
+        Optional<Usuaria> usuaria = usuariaRepo.findByIdOptional(usuaria_nombre);
+        Optional<Item> item = itemRepo.findByIdOptional(item_nombre);
         if (usuaria.isPresent() && item.isPresent() 
             && usuaria.get().getDestreza() >= item.get().getQuality()) {
             orden = new Orden(usuaria.get(), item.get());
-            orden.persist();
+            ordenRepo.persist(orden);
         }
         return orden;
     }
@@ -49,7 +62,7 @@ public class ServiceOlli {
     @Transactional
     public List<Orden> comandaMultiple(String usuaria, List<String> productos) {
 
-        Optional<Usuaria> user = Usuaria.findByIdOptional(usuaria);
+        Optional<Usuaria> user = usuariaRepo.findByIdOptional(usuaria);
         if (user.isEmpty()) {
             return Collections.emptyList();
         }
